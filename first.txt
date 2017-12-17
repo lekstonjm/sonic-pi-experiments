@@ -1,0 +1,10 @@
+# Welcome to Sonic Pi v2.10
+
+live_loop :basic do
+  use_synth  :prophet
+  tick
+  notes = [:E3, :B4, :D4, :r].ring;
+  notes = [:E3, :B4, :Db4, :r].ring if one_in(3);
+  play notes.look, release: 2
+  sleep 0.25
+end

@@ -1,0 +1,85 @@
+# Welcome to Sonic Pi v2.10
+def execute
+  puts "hello"
+end
+
+def range_array(first, last, step)
+  my_array = []
+  value = first
+  while value < last
+    my_array.push(value)
+    value += step
+  end
+  return my_array
+end
+
+
+class Iterator
+  def initialize(array = [])
+    @array = array
+    @index = -1
+  end
+  def reset
+    @index = -1
+  end
+  def next
+    @index = @index + 1
+    if @index >= @array.length
+      @index = @array.length - 1
+      return false
+    end
+    return true;
+  end
+  def get
+    return @array[@index]
+  end
+end
+
+it = Iterator.new( range_array(0.0, 1.0, 0.1) )
+
+use_bpm 135
+use_synth :dsaw
+live_loop :beat do
+  it.next
+  with_fx :reverb, room: it.get do
+    4.times do
+      sample :bd_haus, amp: 0.5
+      sleep 1
+    end
+  end
+end
+
+live_loop :tom_beat do
+  sync :beat
+  with_fx :reverb, room: 0.5 do
+    sleep 0.5
+    sample :drum_tom_hi_soft, rate: rrand(3.8, 4.2)
+    sleep 1.25
+    sample :drum_tom_hi_soft, rate: rrand(3.8, 4.2)
+    sleep 0.5
+    #sample :drum_tom_hi_soft, rate: rrand(3.8, 4.2)
+    sleep 0.5
+    sample :drum_tom_hi_soft, rate: rrand(3.8, 4.2)
+  end
+end
+
+
+live_loop :counter_beat do
+  stop
+  sync :beat
+  with_fx :reverb, room: 0.5 do
+    sleep 0.75
+    sample :drum_tom_hi_hard, rate: 5
+    sleep 0.5
+    sample :drum_tom_hi_hard, rate: 3
+  end
+end
+
+
+
+with_fx :octaver do
+  stop
+  d = play :D3, sustain: 0.5, note_slide: 0.5, note_slide_shape: 3
+  control d, note: :Bb3
+end
+

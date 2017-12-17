@@ -1,0 +1,12 @@
+# Welcome to Sonic Pi v2.10
+
+use_synth :dsaw
+t = 0.25
+with_fx :reverb, room: 0.5 do
+  sample :bd_sone
+  d = play note: :D2, note_slide: t, note_slide_shape: 3, cutoff_slide: t, cutoff: 30
+  control d, note: :E2, cutoff: 120
+  sleep t
+end
+
+

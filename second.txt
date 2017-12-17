@@ -1,0 +1,27 @@
+# Welcome to Sonic Pi v2.10
+
+live_loop :the_main do
+  with_fx :slicer  do
+    with_fx :reverb, room: 1 do
+      sample :ambi_choir, rate: 0.1, amp:1
+    end
+  end
+  sleep 2
+end
+
+live_loop :bp do
+  cue :the_main
+  sample :bd_haus, lpf:60
+  sleep 0.5
+end
+
+live_loop :lead do
+  use_synth :square
+  n = (ring :Fb3,:A2,:C2,:A2).tick
+  
+  p = play n, cutoff: 110, cutoff_slide: 0.25, amp: 0.2
+  control p, cutoff: 40
+  sleep 0.25
+end
+
+

@@ -1,0 +1,19 @@
+# Welcome to Sonic Pi v2.10
+
+use_synth :dsaw
+live_loop :main do
+  with_fx :slicer, phase: 0.5, wave:3  do
+    with_fx :octaver, mix: 0.5 do
+      play chord(:F3, '5'), sustain:1
+      sleep 1
+    end
+  end
+end
+
+live_loop :bit_loop do
+  sync :main
+  sample :bd_haus
+  sleep 0.5
+  sample :bd_haus
+end
+
