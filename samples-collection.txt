@@ -1,0 +1,18 @@
+# Welcome to Sonic Pi v2.10
+ethno = "~/Bureau/Samples/collection2/ethno"
+ethno_drum = "%s/Drum" % [ethno]
+ethno_fx = "%s/FX" % [ethno]
+ethno_loop = "%s/Loop" % [ethno]
+ethno_extra = "%s/XTRA" % [ethno]
+
+
+#drum chiness
+sample ethno_drum, "002", sustain: 2, attack: 0.05, release: 0.05, rate: 1
+sleep 2
+sample ethno_drum, "006", start: 0.35, sustain: 2, attack: 0.05, release: 0.05
+sleep 2
+#drum chiness
+puts sample_duration ethno_drum,"024"
+sample ethno_drum, "024", sustain: 3, attack: 0.05, release: 0.05
+sleep 3
+

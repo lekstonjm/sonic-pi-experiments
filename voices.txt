@@ -1,0 +1,58 @@
+# Welcome to Sonic Pi v2.10
+
+samples = "~/Bureau/Samples/collection3/Pop/Voice"
+
+live_loop :begin do
+  with_fx :reverb do
+    sample samples, "VOICEGRL037", rate: 0.9, release: 2, amp: 0.2
+  end
+  sleep 8;
+end
+
+live_loop :run do
+  with_fx :reverb do
+    use_bpm 60
+    sample samples, "VOICEGRL037", start: 0.5,  attack: 0.1, rate: 1, sustain: 0.5
+    sleep 1
+    with_fx :slicer, phase: 0.25 do
+      sample samples, "VOICEGRL037", start: 0.5,  rate: 1, attack: 0.1, sustain: 0.5
+      sleep 1
+    end
+  end
+end
+
+live_loop :beat do
+  sample :bd_haus
+  sleep 0.5
+end
+
+
+live_loop :lead do
+  play chord(:Fb3, 'minor').choose, amp: 0.2
+  sleep 0.25
+end
+
+
+live_loop :voice2 do
+  sleep 1
+end
+
+live_loop :voice do
+  stop
+  t = 0.25
+  with_fx :slicer, phase: t, wave: 2 do
+    loop do
+      d = sample samples, "VOICEGRL037", sustain: t,attack: 0.2, start: 0.3, release: 0.2
+      sleep t
+    end
+  end
+end
+
+
+stop
+loop do
+  sample samples, "VOICEGRL036", start: 0.2, attack: 0.0, sustain: 1, release: 0.0
+  sample samples, "VOICEGRL036", start: 0.2, rate: 0.9, attack: 0.0, sustain: 1, release: 0.0
+  sleep 0.9
+end
+

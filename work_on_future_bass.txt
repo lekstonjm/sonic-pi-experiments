@@ -1,12 +1,61 @@
 # Welcome to Sonic Pi v2.10
 
+
+use_bpm 60
+
+live_loop :beat do
+  cue :beat
+  sleep 4
+end
+
+
+live_loop :db do
+  sync :beat
+  use_synth :sine
+  db_t = (ring [0,2.25,0.25], [0,1.5,0.75,0.25],[0,2,1]).tick
+  db_t.each do |t|
+    sleep t
+    sample :bd_haus, amp: 0.6
+    n = play chord(:Fb1,'5'), release: 1, note_slide: 1
+    control n, note: chord(:D1, '5')
+  end
+end
+
+live_loop :kick do
+  sync :beat
+  kick_t = (ring [1,2],[1,2],[1,2]).tick
+  kick_t.each do |t|
+    sleep t
+    with_fx :reverb, room: 0.5 do
+      sample :drum_snare_hard, rate: 1.1, amp: 0.5
+    end
+  end
+end
+
+live_loop :main do
+  sleep 1
+end
+
+stop
 use_synth :dsaw
-t = 0.25
-with_fx :reverb, room: 0.5 do
-  sample :bd_sone
-  d = play note: :D2, note_slide: t, note_slide_shape: 3, cutoff_slide: t, cutoff: 30
-  control d, note: :E2, cutoff: 120
-  sleep t
+3.times do
+  t = (ring ,1,1,0.15).tick
+  n = 1 / t
+  
+  with_fx :reverb, room: 0.5 do
+    #sample :bd_sone
+    n.times do
+      d = play note: chord(:A1,'5'),
+        release: t,
+        attack: 0.01,
+        note_slide: t,
+        note_slide_shape: 3,
+        cutoff_slide: t,
+        cutoff: 30
+      control d, note: chord(:E1,'5'), cutoff: 120
+      sleep t
+    end
+  end
 end
 
 

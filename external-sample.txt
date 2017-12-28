@@ -1,0 +1,3 @@
+# Welcome to Sonic Pi v2.10
+samps = "/mnt/Dance/Voice/"
+sample samps, "VOICEGRL", 10, rate: 1.5e
